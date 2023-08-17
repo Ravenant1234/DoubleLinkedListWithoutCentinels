@@ -158,7 +158,7 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 	 */
 	public Position<E> next(Position<E> p) throws InvalidPositionException, BoundaryViolationException {
 		NodoD<E> d = checkPosition(p);//si el nodo es valido
-		if (d == tail) {throw new BoundaryViolationException("Se cae de la lista");}// y no nos caemos de la lista
+		if (d == tail) {throw new BoundaryViolationException("Se cae de la lista");}
 		return d.getNext();//retorna el siguiente
 	}
 	
@@ -247,15 +247,11 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 	 */
 	public void addBefore(Position<E> p, E element) throws InvalidPositionException{
 		NodoD<E> d = checkPosition(p);//valida que sea una posicion valida
-		if (d == head) {//si el nodo es el primero, pasamos la responsabilidad a add first
-			addFirst(element);
-		} else {
-			NodoD<E> nuevo = new NodoD<E> (d.getPrev(), d, element);// si no enlazamos entre medio de p y el anterior de p
-			if (d.getPrev()!= null) 
-				d.getPrev().setNext(nuevo);
-			d.setPrev(nuevo);
-			size++;
-		}
+		NodoD<E> nuevo = new NodoD<E> (d.getPrev(), d, element);// si no enlazamos entre medio de p y el anterior de p
+		if (d.getPrev()!= null) 
+			d.getPrev().setNext(nuevo);
+		d.setPrev(nuevo);
+		size++;
 	}
 	
 	/**
@@ -272,16 +268,8 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 		if (anterior != null) {anterior.setNext(posterior);}//enlaza el anterior con el posterior a p
 		if (posterior != null) {posterior.setPrev(anterior);}//enlaza el posterior con el anterior a p
 		switch (size){
-			case 1 -> { //si elimino y habia un nodo, setea en null
-				head = new NodoD<E>(null,null,null);
-				tail = head;
-			}
-			case 2 -> { //si elimino y habia dos nodos, ahora la cabeza y la cola seran el mismo nodo
-				if(d == head)
-					head = tail;
-				else if (d == tail)
-					tail = head;
-			}
+			case 1 -> head = tail = new NodoD<E>(null,null,null);  //si elimino y habia un nodo, setea en null
+			case 2 -> head = tail; //Si habia 2 nodos cabeza y cola ahora son el mismo nodo
 			default -> { //si habia mas de 2, controla que si eliminamos cabeza o cola, se vuelvana igualar al ultimo/primer nodo
 				if (d == head) {head = posterior;}
 				else if (d== tail) {tail = anterior;}
