@@ -231,15 +231,11 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 	 */
 	public void addAfter(Position<E> p, E element) throws InvalidPositionException {
 		NodoD<E> d = checkPosition(p);//valida que sea una posicion valida
-		if (d == tail) {//si queremos añadir ultimo pasamos la responsabilidad a add last
-			addLast(element);
-		} else {
-			NodoD<E> nuevo = new NodoD<E> (d, d.getNext(), element);// si no enlazamos entre medio de p y el siguiente de p
-			if (d.getNext()!=null) 
-				d.getNext().setPrev(nuevo);
-			d.setNext(nuevo);
-			size++;
-		}
+		NodoD<E> nuevo = new NodoD<E> (d, d.getNext(), element);// si no enlazamos entre medio de p y el siguiente de p
+		if (d.getNext()!=null) 
+			d.getNext().setPrev(nuevo);
+		d.setNext(nuevo);
+		size++;
 	}
 	
 	/**
