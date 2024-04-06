@@ -322,7 +322,7 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 			while (pos!= tail) {
 				p.addLast(pos);
 				try {
-					pos = ((NodoD<E>)pos).getNext();
+					pos = next(pos);
 				} catch (InvalidPositionException | BoundaryViolationException e) {
 					//Esto no pasa porque controlamos el ultimo
 					e.printStackTrace();
