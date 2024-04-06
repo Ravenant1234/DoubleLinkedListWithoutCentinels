@@ -231,9 +231,10 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 	 */
 	public void addAfter(Position<E> p, E element) throws InvalidPositionException {
 		NodoD<E> d = checkPosition(p);//valida que sea una posicion valida
-		NodoD<E> nuevo = new NodoD<E> (d, d.getNext(), element);// si no enlazamos entre medio de p y el siguiente de p
-		if (d.getNext()!=null) 
-			d.getNext().setPrev(nuevo);
+		NodoD<E> sig = d.getNext();
+		NodoD<E> nuevo = new NodoD<E> (d, sig, element);// si no enlazamos entre medio de p y el siguiente de p
+		if (sig !=null) 
+			sig.setPrev(nuevo);
 		d.setNext(nuevo);
 		size++;
 	}
@@ -247,9 +248,10 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 	 */
 	public void addBefore(Position<E> p, E element) throws InvalidPositionException{
 		NodoD<E> d = checkPosition(p);//valida que sea una posicion valida
-		NodoD<E> nuevo = new NodoD<E> (d.getPrev(), d, element);// si no enlazamos entre medio de p y el anterior de p
-		if (d.getPrev()!= null) 
-			d.getPrev().setNext(nuevo);
+		NodoD<E> ant = d.getPrev();
+		NodoD<E> nuevo = new NodoD<E> (ant, d, element);// si no enlazamos entre medio de p y el anterior de p
+		if (ant!= null) 
+			ant.setNext(nuevo);
 		d.setPrev(nuevo);
 		size++;
 	}
@@ -320,7 +322,7 @@ public class DoubleLinkedListSinCentinelas<E> implements PositionList<E>{
 			while (pos!= tail) {
 				p.addLast(pos);
 				try {
-					pos = next(pos);
+					pos = ((NodoD<E>)pos).getNext();
 				} catch (InvalidPositionException | BoundaryViolationException e) {
 					//Esto no pasa porque controlamos el ultimo
 					e.printStackTrace();
